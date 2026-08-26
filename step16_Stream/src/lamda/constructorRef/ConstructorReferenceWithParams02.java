@@ -24,12 +24,19 @@ public class ConstructorReferenceWithParams02 {
 		};
 		
 		//1. 람다식으로 변경해보자
-		
+		Function<String, User> beforeUser2 = (name)->new User(name);
 		
 		//2. 생성자 참조로 변경해보자
-		
+		Function<String, User> beforeUser3 = User::new;
     	
         //3. 호출해보자  
-       
-    } 
+		User user1 = beforeUser.apply("길동");
+		user1.printName();
+		
+		User user2 = beforeUser2.apply("길동");
+		user2.printName();
+		
+		User user3 = beforeUser3.apply("길동");
+		user3.printName();
+	} 
 }

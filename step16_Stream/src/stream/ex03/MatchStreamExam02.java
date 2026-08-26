@@ -1,7 +1,9 @@
 package stream.ex03;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 public class MatchStreamExam02 {
@@ -17,30 +19,44 @@ public class MatchStreamExam02 {
 		
 		//1. allMatch - 모든학생의 점수가 80이상인지 ?
 		System.out.println("1. allMatch - 모든학생의 점수가 80이상인지 ?");
-		
-		
+		boolean re =list.stream()
+//		.allMatch(new Predicate<Student>(){
+//			@Override
+//			public boolean test(Student t) {
+//				return t.getScore()>=80;
+//			}
+//		})
+		.allMatch(t->t.getScore()>=80);
+		System.out.println(re);
 		
 		//2. anyMatch - 학생중에 80이상이 한명이라도 있는지?
 		System.out.println("2. anyMatch - 학생중에 80이상이 한명이라도 있는지?");
 		
-		
-		
+		boolean re1 =list.stream().anyMatch(s->s.getScore()>=80);
+		System.out.println(re1);
 		//3 . noneMatch - 80이상이 아무도 없니?
 		System.out.println("3 . noneMatch - 80이상이 아무도 없니?");
-		
-		
+		boolean re3 =list.stream().noneMatch(s->s.getScore()>=80);
+		System.out.println(re3);
 		//4. max() - 가장 많은 나이
 		System.out.println("4. max() - 가장 많은 나이는?");
-		
+		Student st = list.stream().max(new Comparator<Student>() {
+			public int compare(Student o1, Student o2) {
+				return o1.getAge()-o1.getAge();
+			};
+		}).orElse(null);
+		System.out.println(st);
 		
 		System.out.println("----------------------");
 		int arr []= new int [] {1,3,5,6,8};
 		
 		System.out.println("5. max() - 최대값?");
-		
-		
+		int re4 = Arrays.stream(arr).max().getAsInt();
+		System.out.println(re4);
 		
 		System.out.println("6. min() - 최소값?");
+		int re5 = Arrays.stream(arr).min().getAsInt();
+		System.out.println(re5);
 		
 	
 		
