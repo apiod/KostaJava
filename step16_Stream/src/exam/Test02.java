@@ -18,7 +18,8 @@ public class Test02 {
                  new Student("현솔", 25, 81.7, "Physics")
         );
         Student max =students.stream()
-	    .max((o1,o2)->o1.getAge()-o2.getAge())
+        .max(Comparator.comparingInt(Student::getAge))
+//	    .max((o1,o2)->o1.getAge()-o2.getAge())
 	    .orElse(null)
         ;
         System.out.println(max);
