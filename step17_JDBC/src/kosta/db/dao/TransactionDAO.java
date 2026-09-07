@@ -19,10 +19,10 @@ public class TransactionDAO {
 			con = DbManager.getConnection();
 			con.setAutoCommit(false);//자동커밋 해제
 			
-			int result = this.withdraw(con, outputAccount, money);
-			if(result ==0) throw new SQLException("출금계좌번호 오류로 계좌이체 실패했습니다.");
+//			int result = this.withdraw(con, outputAccount, money);
+//			if(result ==0) throw new SQLException("출금계좌번호 오류로 계좌이체 실패했습니다.");
 			
-			result = this.deposit(con, inputAccount, money);
+			int result = this.deposit(con, inputAccount, money);
 			if(result ==0) throw new SQLException("입금계좌번호 오류로 계좌이체 실패했습니다.");
 			
 			if(this.balanceCheck(con, inputAccount)) {
@@ -32,11 +32,12 @@ public class TransactionDAO {
 			con.commit();
 			
 		} catch (SQLException e) {
-			e.getMessage();
+			System.err.println(e.getMessage());
+			
 			try {
 				con.rollback();	
 			} catch (Exception e2) {
-				e2.getMessage();
+				System.err.println(e2.getMessage());
 				e.printStackTrace();
 			}
 		} finally {
@@ -54,9 +55,9 @@ public class TransactionDAO {
 		try {
 			ps=con.prepareStatement(sql);
 			ps.setInt(1, money);
-			ps.setString(2, "'"+outputAccount+"'");
+			ps.setString(2,outputAccount);
 			result = ps.executeUpdate();
-			
+			System.out.println(result);
 		} finally {
 			DbManager.dbClose(null, ps);
 		}
@@ -110,11 +111,11 @@ public class TransactionDAO {
 	
 	public static void main(String[] args) {
 		TransactionDAO dao = new TransactionDAO();
-		System.out.println("--1. 출금계좌 오류----");
-		dao.transfer("A02", "A05",100);//입금, 출금, 금액
+//		System.out.println("--1. 출금계좌 오류----");
+//		dao.transfer("A02", "A01",100);//입금, 출금, 금액
 		
-//		System.out.println("--2. 입금계좌 오류----");
-		//dao.transfer("A04", "A01",200);//입금, 출금, 금액
+		System.out.println("--2. 입금계좌 오류----");
+		dao.transfer("A01", "A01",200);//입금, 출금, 금액
 		
 		
 //		System.out.println("--3. 입금계좌의 총액 1000원 이상인경우----");

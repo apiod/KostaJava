@@ -32,46 +32,66 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardDTO> boardSelectBySubject(String keyWord) throws SearchWrongException {
-		// TODO Auto-generated method stub
-		return null;
+		List<BoardDTO> list = boardDao.boardSelectBySubject(keyWord);
+		
+		if(list.isEmpty())
+			throw new SearchWrongException("검색된 레코드가 없습니다.");
+		return list;
 	}
 
 	@Override
 	public BoardDTO boardSelectByNo(int boardNo) throws SearchWrongException {
-		// TODO Auto-generated method stub
-		return null;
+		BoardDTO dto= boardDao.boardSelectByNo(boardNo);
+		if(dto == null) throw new SearchWrongException("해당하는 게시물이 존재하지않습니다.");
+		return dto;
 	}
 
 	@Override
 	public void boardInsert(BoardDTO boardDTO) throws DMLException {
 		int result = boardDao.boardInsert(boardDTO);
 		if(result==0)
-			throw new DMLException("등록되지않았습니다.");
+			throw new DMLException("등록되지 않았습니다.");
 
 	}
 
 	@Override
 	public void boardUpdate(BoardDTO boardDTO) throws DMLException {
-		// TODO Auto-generated method stub
+		int result = boardDao.boardUpdate(boardDTO);
+		if(result==0)
+			throw new DMLException("수정되지 않았습니다.");
 
 	}
 
 	@Override
 	public void boardDelete(int boardNo) throws DMLException {
-		
+		int result = boardDao.boardDelete(boardNo);
+		if(result==0)
+			throw new DMLException("게시물이 없어 삭제되지 않았습니다.");
+
 
 	}
 
 	@Override
 	public void replyInsert(ReplyDTO replyDTO) throws DMLException {
-		// TODO Auto-generated method stub
+		int result = boardDao.replyInsert(replyDTO);
+		if(result==0)
+			throw new DMLException("댓글 등록에 실패되었습니다.");
 
 	}
 
 	@Override
 	public BoardDTO replySelectByParentNo(int boardNo) throws SearchWrongException {
-		
-		return null;
+		BoardDTO dto = boardDao.replySelectByParentNo(boardNo);
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}if(dto==null) {
+			throw new SearchWrongException("해당하는 게시물이 존재하지않습니다.");
+		}
+		if(dto.getRepliesList().isEmpty())
+			throw new SearchWrongException("해당하는 게시물에 댓글이 존재하지않습니다.");
+		return dto;
 	}
 
 }

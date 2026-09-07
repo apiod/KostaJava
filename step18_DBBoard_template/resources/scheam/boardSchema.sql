@@ -43,3 +43,12 @@ select * from board join reply using(board_no)  where board_no=1;
 select * from board left join reply using(board_no);
 commit;
 
+select * from board order by board_no desc;
+select * from board where board_no = 2; 
+select * from board;
+
+insert into board (subject, writer, content, board_date) 
+values ("qwe", "qwe", "qwe", now());
+	 
+
+
