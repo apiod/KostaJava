@@ -38,7 +38,7 @@ public class DbManager {
 	public static void dbClose(Connection con, Statement st) {
 		try {
 			if(st != null) st.close();
-			if(con != null) st.close();
+			if(con != null) con.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
